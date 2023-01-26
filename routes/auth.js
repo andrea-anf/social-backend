@@ -12,7 +12,7 @@ router.post("/register", async (req,res) => {
         const newUser = new User({
             username: req.body.username,
             password: hashedPassword,
-            email: req.body.email        
+            email: (req.body.email).toLowerCase()    
         })
         
         //save user and return response
@@ -32,6 +32,8 @@ router.post("/login", async (req, res) => {
         !validPassword && res.status(400).json("wrong password");
 
         if(user && validPassword){
+            req.session.user = { name: 'Chetan' };
+
             res.status(200).json(user)
         }
     } catch (error) {

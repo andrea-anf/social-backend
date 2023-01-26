@@ -4,6 +4,10 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const cors = require("cors")
+const cookieParser = require("cookie-parser");
+const sessions = require('express-session');
+
 const userRoute = require("./routes/users")
 const authRoute = require("./routes/auth")
 const postRoute = require("./routes/posts")
@@ -17,7 +21,17 @@ mongoose.connect(
     console.log("connected to MongoDB");
 });
 
+//to accept calls
+app.use(cors())
 
+const oneDay = 1000 * 60 * 60 * 24;
+app.use(sessions({
+    secret: "thisismysecrctekey",
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false
+}));
+app.use(cookieParser());
 
 //middleware
 app.use(express.json());

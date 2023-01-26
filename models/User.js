@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema({
     password: {
         type:String,
         require: true,
-        min:8
+        min:6
     },
     profilePicture: {
         type:String,
